@@ -2,7 +2,7 @@
 pipeline{
     agent{ node { label 'default'}}
     environment { 
-
+        PLACE = HOLDER      
     }
     stages {
         stage("Prepare") {
@@ -15,7 +15,7 @@ pipeline{
                       sh "docker build -t guylurieg/practice:${currentBuild.number} ."
                       withCredentials([usernamePassword(credentialsId: 'Docker User Pass Encrypted', passwordVariable: 'password', usernameVariable: 'username')]) {
                         sh "docker login -u $username -p $password "
-                        sh "docker push guylurieg/"
+                        sh "docker push guylurieg/practice:${currentBuild.number}"
                                                             }
             }
         }
