@@ -1,8 +1,9 @@
 #!/usr/bin/env groovy
 pipeline{
     agent{ node { label 'default'}}
+    
     environment { 
-        PLACE = HOLDER      
+        PLACE = "HOLDER"      
     }
     stages {
         stage("Prepare") {
