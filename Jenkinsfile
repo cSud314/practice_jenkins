@@ -1,12 +1,25 @@
 #!/usr/bin/env groovy
 pipeline{
-    agent{ node { label 'aws-example'}}
+    agent{ node { label 'default'}}
     environment { 
-        A = B
+
     }
     stages {
         stage("Prepare") {
-            bitbucketStatusNotify buildState: "INPROGRESS"
+           sh "echo pizdec"
         }
+        stage("build and push Docker")
+        {
+                      docker build -t guylurieg/practice:${currentBuild.number} .
+                      withCredentials([usernamePassword(credentialsId: 'Docker User Pass Encrypted', passwordVariable: 'password', usernameVariable: 'username')]) {
+                        sh "docker login -u $username -p $password "
+                        sh "docker push guylurieg/"
+                }
+        }
+        stage("Finish")
+        {
+                sh "echo success!!!"
+        }
+
     }
 }
