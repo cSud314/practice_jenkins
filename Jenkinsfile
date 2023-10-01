@@ -8,13 +8,12 @@ pipeline{
         stage("Prepare") {
            sh "echo pizdec"
         }
-        stage("build and push Docker")
-        {
-                      docker build -t guylurieg/practice:${currentBuild.number} .
+        stage("build and push Docker") {
+                      sh "docker build -t guylurieg/practice:${currentBuild.number} ."
                       withCredentials([usernamePassword(credentialsId: 'Docker User Pass Encrypted', passwordVariable: 'password', usernameVariable: 'username')]) {
                         sh "docker login -u $username -p $password "
                         sh "docker push guylurieg/"
-                }
+                                                            }
         }
         stage("Finish")
         {
